@@ -1,21 +1,19 @@
 class Solution:
     def findCircleNum(self, isConnected: List[List[int]]) -> int:
-        res = 0
-        n = len(isConnected)
-
-        def dfs(i):
-            isConnected[i][i] = 2
-
-            for j in range(0, n):
-                if isConnected[i][j] == 1:
-                    isConnected[i][j]=2
-
-                    dfs(j)
-            
-        for i in range(0, n):
-            if isConnected[i][i] == 1:
-                res+=1
-                dfs(i)
-        return res
-
         
+        def go(i):
+            if i in seen:
+                return 0
+            seen.add(i)
+            for j in range(n):
+                if i!=j and isConnected[i][j] == 1:
+                    go(j)
+            return 1
+        
+        n = len(isConnected)
+        res = 0
+        seen = set()
+        for i in range(n):
+            res += go(i)
+            
+        return res
